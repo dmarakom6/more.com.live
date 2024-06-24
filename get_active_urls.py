@@ -1,6 +1,7 @@
 from requests_html import HTMLSession
 from bs4 import BeautifulSoup
 import requests
+import json
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0'
@@ -41,20 +42,46 @@ def get_main_page_event_info():
                 'event_group_code': event_group_code
             }
             
-            # Append the dictionary to the event_info list
             event_info.append(info)
     
     return event_info
 
 
+# Get info for every event in the main page
+def get_event_info(info):
+    event_info = []
+    for event in info:
+        event_url = 'https://www.more.com/_api/playdetails/getevents?eventGroupCode=' + event['event_group_code']
+        session = HTMLSession()
+        response = session.get(event_url, headers=headers)
+        soup = BeautifulSoup(response.html.html, 'html.parser')
+        raw_data = json.loads(soup.get_text(strip=True))[0] # Dictionary inside a list
+        
+        filtered_info = {
+            'event_id': raw_data['eventId'],
+            'duration': raw_data['duration'],
+            'latitude': raw_data['venueLatitude'],
+            'longtitude': raw_data['venueLongitude'],
+            'producer_name': raw_data['producerName']
+        }
+        
+        event_info.append(filtered_info)
+
+        
+    return event_info #Really slow
+        
+
 
 def main():
     main_page_event_info = get_main_page_event_info()
-    print(main_page_event_info)
+    get_event_info(main_page_event_info)
     
 
 
 
 if __name__ == "__main__":
     a = main()
-    print(a)
+    # print(a) Will force a timeout, really slow
+
+
+# TODO : Split into sub-scripts to extract data separately, in order to achieve better error handling
