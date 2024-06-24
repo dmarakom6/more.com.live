@@ -7,7 +7,7 @@ headers = {
 }
 
 # Get all event info from the main tickets page
-def get_event_info():
+def get_main_page_event_info():
     
     url = 'https://www.more.com/en/tickets/'
     session = HTMLSession()
@@ -18,51 +18,40 @@ def get_event_info():
     div = soup.find('div', id='play_results')
     
     if div:
-        links = div.find_all('a', href=True)
-         
-        for link in links:
-            event_title = link.find('h3').get_text(strip=True) if link and link.find('h3') else 'No Title'
-            event_date = link.find('time').get_text(strip=True) if link and link.find('time') else 'No Date'
-            article_tag = div.find('article')
+        articles = div.find_all('article')
+
+        for article_tag in articles:
+            event_group_code = article_tag['data-code'] if article_tag and article_tag.has_attr('data-code') else 'No Code'
+            event_date_tag = article_tag.find('time')
+            event_date = event_date_tag.get_text(strip=True) if event_date_tag else 'No Date'
             a_tag = article_tag.find('a', id="ItemLink")
-            aside_tag = a_tag.find('aside')
-            img_tag = aside_tag.find('img')
-            event_thumbnail_url = img_tag['src']
+            playinfo = a_tag.find(class_="playinfo")
+            event_title_tag = playinfo.find('h3')    
+            event_url = a_tag['href'] if a_tag else 'No URL'
+            event_title = event_title_tag.get_text(strip=True) if event_title_tag else 'No Title'
+            aside_tag = article_tag.find('aside')
+            img_tag = aside_tag.find('img') if aside_tag else None
+            event_thumbnail_url = img_tag['src'] if img_tag else 'No Thumbnail'
             
+            info = {
+                'event_url': event_url,
+                'event_title': event_title,
+                'event_date': event_date,
+                'event_thumbnail_url': event_thumbnail_url,
+                'event_group_code': event_group_code
+            }
             
-            
-            info = {'event_url': link['href'], 'event_title':event_title, 'event_date': event_date, 'event_thumbnail_url': event_thumbnail_url}
-            
-            
+            # Append the dictionary to the event_info list
             event_info.append(info)
     
     return event_info
 
 
-# Extract eventGroupCode from an event page
-def get_event_group_code(event_url):
-    response = requests.get(event_url, headers=headers)
-    soup = BeautifulSoup(response.text, 'html.parser')
-    for i in soup.find_all('script'):
-        if i.get('src'):
-            pass #TODO: FIND AND RETURN eventGroupCode
-
 
 def main():
-    event_group_codes = []
-    event_info = get_event_info()
-    print(event_info)
-    pass
-    # for event_link in event_info:
-    #     event_url = f'https://www.more.com{event_link}'
-    #     print(get_event_links())
-        # print(event_url)
-        # event_group_code = get_event_group_code(event_url)
-        # print(event_group_code)
-        # event_group_codes.append(event_group_code)
-        
-    return event_group_codes
-
+    main_page_event_info = get_main_page_event_info()
+    print(main_page_event_info)
+    
 
 
 
