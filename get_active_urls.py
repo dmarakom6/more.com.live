@@ -1,4 +1,3 @@
-from requests_html import HTMLSession
 from bs4 import BeautifulSoup
 import requests
 import json
@@ -11,9 +10,7 @@ headers = {
 def get_main_page_event_info():
     
     url = 'https://www.more.com/en/tickets/'
-    session = HTMLSession()
-    response = session.get(url, headers=headers)
-    soup = BeautifulSoup(response.html.html, 'html.parser')
+    soup = BeautifulSoup(requests.get(url, headers=headers).text, 'html.parser')
     event_info = []
 
     div = soup.find('div', id='play_results')
@@ -52,9 +49,7 @@ def get_event_info(info):
     event_info = []
     for event in info:
         event_url = 'https://www.more.com/_api/playdetails/getevents?eventGroupCode=' + event['event_group_code']
-        session = HTMLSession()
-        response = session.get(event_url, headers=headers)
-        soup = BeautifulSoup(response.html.html, 'html.parser')
+        soup = BeautifulSoup(requests.get(event_url, headers=headers).text, 'html.parser')
         raw_data = json.loads(soup.get_text(strip=True))[0] # Dictionary inside a list
         
         filtered_info = {
