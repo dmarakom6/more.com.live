@@ -18,7 +18,7 @@ def get_main_page_event_info():
         articles = div.find_all('article')
 
         for article_tag in articles:
-            event_group_code = article_tag['data-code'] if article_tag and article_tag.has_attr('data-code') else 'No Code'
+            event_group_code = article_tag['data-code']
             event_date_tag = article_tag.find('time')
             event_date = event_date_tag.get_text(strip=True) if event_date_tag else 'No Date'
             a_tag = article_tag.find('a', id="ItemLink")
@@ -47,19 +47,23 @@ def get_main_page_event_info():
 def get_event_info(info):
     event_info = []
     for event in info:
-        event_url = 'https://www.more.com/_api/playdetails/getevents?eventGroupCode=' + event['event_group_code']
-        raw_data = requests.get(event_url, headers=headers).json()[0] # Dictionary inside a list
-        
-        filtered_info = {
-            'event_id': raw_data['eventId'],
-            'duration': raw_data['duration'],
-            'latitude': raw_data['venueLatitude'],
-            'longtitude': raw_data['venueLongitude'],
-            'producer_name': raw_data['producerName']
-        }
-        
-        event_info.append(filtered_info)
-        
+        try:
+            event_url = 'https://www.more.com/_api/playdetails/getevents?eventGroupCode=' + event['event_group_code']
+            raw_data = requests.get(event_url, headers=headers).json()[0] # Dictionary inside a list
+            
+            filtered_info = {
+                'event_id': raw_data['eventId'],
+                'duration': raw_data['duration'],
+                'latitude': raw_data['venueLatitude'],
+                'longtitude': raw_data['venueLongitude'],
+                'producer_name': raw_data['producerName']
+            }
+        except TypeError:
+            filtered_info = "No event info"
+        finally:
+            event_info.append(filtered_info)
+            
+            
     return event_info #Really slow
         
 
