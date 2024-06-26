@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup
 import requests
-import json
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0'
@@ -49,8 +48,7 @@ def get_event_info(info):
     event_info = []
     for event in info:
         event_url = 'https://www.more.com/_api/playdetails/getevents?eventGroupCode=' + event['event_group_code']
-        soup = BeautifulSoup(requests.get(event_url, headers=headers).text, 'html.parser')
-        raw_data = json.loads(soup.get_text(strip=True))[0] # Dictionary inside a list
+        raw_data = requests.get(event_url, headers=headers).json()[0] # Dictionary inside a list
         
         filtered_info = {
             'event_id': raw_data['eventId'],
@@ -61,7 +59,6 @@ def get_event_info(info):
         }
         
         event_info.append(filtered_info)
-
         
     return event_info #Really slow
         
