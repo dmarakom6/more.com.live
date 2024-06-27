@@ -47,22 +47,19 @@ def get_main_page_event_info():
 def get_event_info(info):
     event_info = []
     for event in info:
-        try:
-            event_url = 'https://www.more.com/_api/playdetails/getevents?eventGroupCode=' + event['event_group_code']
-            raw_data = requests.get(event_url, headers=headers).json()[0] # Dictionary inside a list
-            
-            filtered_info = {
-                'event_id': raw_data['eventId'],
-                'duration': raw_data['duration'],
-                'latitude': raw_data['venueLatitude'],
-                'longtitude': raw_data['venueLongitude'],
-                'producer_name': raw_data['producerName']
-            }
-        except TypeError:
-            filtered_info = "No event info"
-        finally:
-            event_info.append(filtered_info)
-            
+        event_url = 'https://www.more.com/_api/playdetails/getevents?eventGroupCode=' + event.get('event_group_code') # Avoids KeyError
+        raw_data = requests.get(event_url, headers=headers).json()[0] # Dictionary inside a list
+        
+        filtered_info = {
+            'event_id': raw_data['eventId'],
+            'duration': raw_data['duration'],
+            'latitude': raw_data['venueLatitude'],
+            'longtitude': raw_data['venueLongitude'],
+            'producer_name': raw_data['producerName']
+        }
+
+        event_info.append(filtered_info)
+        print(event_info)
             
     return event_info #Really slow
         
