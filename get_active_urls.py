@@ -20,12 +20,12 @@ def get_main_page_event_info():
         for article_tag in articles:
             event_group_code = article_tag['data-code']
             event_date_tag = article_tag.find('time')
-            event_date = event_date_tag.get_text(strip=True) if event_date_tag else 'No Date'
+            event_date = event_date_tag.get_text(strip=True)
             a_tag = article_tag.find('a', id="ItemLink")
             playinfo = a_tag.find(class_="playinfo")
             event_title_tag = playinfo.find('h3')    
             event_url = a_tag['href'] if a_tag else 'No URL'
-            event_title = event_title_tag.get_text(strip=True) if event_title_tag else 'No Title'
+            event_title = event_title_tag.get_text(strip=True)
             aside_tag = article_tag.find('aside')
             img_tag = aside_tag.find('img') if aside_tag else None
             event_thumbnail_url = img_tag['src'] if img_tag else 'No Thumbnail'
