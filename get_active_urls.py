@@ -1,4 +1,3 @@
-from requests_html import HTMLSession
 from bs4 import BeautifulSoup
 import requests
 
@@ -7,65 +6,75 @@ headers = {
 }
 
 # Get all event info from the main tickets page
-def get_event_info():
+def get_main_page_event_info():
     
     url = 'https://www.more.com/en/tickets/'
-    session = HTMLSession()
-    response = session.get(url, headers=headers)
-    soup = BeautifulSoup(response.html.html, 'html.parser')
+    soup = BeautifulSoup(requests.get(url, headers=headers).text, 'html.parser')
     event_info = []
 
     div = soup.find('div', id='play_results')
     
     if div:
-        links = div.find_all('a', href=True)
-         
-        for link in links:
-            event_title = link.find('h3').get_text(strip=True) if link and link.find('h3') else 'No Title'
-            event_date = link.find('time').get_text(strip=True) if link and link.find('time') else 'No Date'
-            article_tag = div.find('article')
+        articles = div.find_all('article')
+
+        for article_tag in articles:
+            event_group_code = article_tag['data-code']
+            event_date_tag = article_tag.find('time')
+            event_date = event_date_tag.get_text(strip=True)
             a_tag = article_tag.find('a', id="ItemLink")
-            aside_tag = a_tag.find('aside')
-            img_tag = aside_tag.find('img')
-            event_thumbnail_url = img_tag['src']
+            playinfo = a_tag.find(class_="playinfo")
+            event_title_tag = playinfo.find('h3')    
+            event_url = a_tag['href'] if a_tag else 'No URL'
+            event_title = event_title_tag.get_text(strip=True)
+            aside_tag = article_tag.find('aside')
+            img_tag = aside_tag.find('img') if aside_tag else None
+            event_thumbnail_url = img_tag['src'] if img_tag else 'No Thumbnail'
             
-            
-            
-            info = {'event_url': link['href'], 'event_title':event_title, 'event_date': event_date, 'event_thumbnail_url': event_thumbnail_url}
-            
+            info = {
+                'event_url': event_url,
+                'event_title': event_title,
+                'event_date': event_date,
+                'event_thumbnail_url': event_thumbnail_url,
+                'event_group_code': event_group_code
+            }
             
             event_info.append(info)
     
     return event_info
 
 
-# Extract eventGroupCode from an event page
-def get_event_group_code(event_url):
-    response = requests.get(event_url, headers=headers)
-    soup = BeautifulSoup(response.text, 'html.parser')
-    for i in soup.find_all('script'):
-        if i.get('src'):
-            pass #TODO: FIND AND RETURN eventGroupCode
+# Get info for every event in the main page
+def get_event_info(info):
+    event_info = []
+    for event in info:
+        event_url = 'https://www.more.com/_api/playdetails/getevents?eventGroupCode=' + event.get('event_group_code') # Avoids KeyError
+        raw_data = requests.get(event_url, headers=headers).json()[0] # Dictionary inside a list
+        
+        filtered_info = {
+            'event_id': raw_data['eventId'],
+            'duration': raw_data['duration'],
+            'latitude': raw_data['venueLatitude'],
+            'longtitude': raw_data['venueLongitude'],
+            'producer_name': raw_data['producerName']
+        }
+
+        event_info.append(filtered_info)
+        print(event_info)
+            
+    return event_info #Really slow
+        
 
 
 def main():
-    event_group_codes = []
-    event_info = get_event_info()
-    print(event_info)
-    pass
-    # for event_link in event_info:
-    #     event_url = f'https://www.more.com{event_link}'
-    #     print(get_event_links())
-        # print(event_url)
-        # event_group_code = get_event_group_code(event_url)
-        # print(event_group_code)
-        # event_group_codes.append(event_group_code)
-        
-    return event_group_codes
-
+    main_page_event_info = get_main_page_event_info()
+    get_event_info(main_page_event_info)
+    
 
 
 
 if __name__ == "__main__":
     a = main()
-    print(a)
+    # print(a) Will force a timeout, really slow
+
+
+# TODO : Split into sub-scripts to extract data separately, in order to achieve better error handling
