@@ -59,7 +59,7 @@ def get_event_info(info):
         }
 
         event_info.append(filtered_info)
-        print(event_info)
+        
             
     return event_info #Really slow
         
@@ -67,7 +67,7 @@ def get_event_info(info):
 
 def main():
     main_page_event_info = get_main_page_event_info()
-    get_event_info(main_page_event_info)
+    get_event_info(main_page_event_info, flush=True)
     
 
 
