@@ -3,6 +3,8 @@ import React from "react"
 
 import "./EventDrawer.css"
 
+import SortPopover from "./SortPopOver/SortPopOver"
+
 import {
     Button,
     // Input,
@@ -15,8 +17,6 @@ import {
     DrawerCloseButton,
     useDisclosure
 } from '@chakra-ui/react' // Drawer
-
-
 import { LinkBox, LinkOverlay, Text, Heading, Box, Image } from '@chakra-ui/react' // Link Overlay for Multiple Events
 import { SimpleGrid } from '@chakra-ui/react' // Info Layout
 
@@ -126,11 +126,13 @@ export default function EventDrawer(props) {
                     <Button onClick={console.log("more.com redirect")} colorScheme={colorscheme}>Εισιτήρια</Button>
                 </>
             )
-        } // else {
-        //     return (
-        //         // <Button onClick={console.log("google maps redirect")} colorScheme={colorscheme}>Ταξινόμηση</Button> --> Popover
-        //     )
-        // }
+        } else {
+            return (
+                <>
+                    <SortPopover colorscheme={colorscheme} />
+                </>
+            )
+        }
     }
 
     return (
@@ -148,7 +150,7 @@ export default function EventDrawer(props) {
                 {/* <DrawerOverlay /> -> lowers the map's brightness*/}
                 <DrawerContent>
                     <DrawerCloseButton />
-                    <DrawerHeader fontSize="2em" color={color}>{props.events ? "Events List" : "<Event Name>"}</DrawerHeader>
+                    <DrawerHeader fontSize="2em" color={color}>{props.events ? "Λίστα Γεγονότων" : "Γεγονός"}</DrawerHeader>
 
                     <DrawerBody>
                         {render_event(props)}
