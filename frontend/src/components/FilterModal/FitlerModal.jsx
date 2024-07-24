@@ -3,6 +3,7 @@ import { FaFilter } from "react-icons/fa";
 import { useState } from "react"
 
 import EventCheckbox from "./EventCheckbox";
+import DistanceSlider from "./DistanceSlider/DistanceSlider";
 
 export default function FilterModal() {
 
@@ -34,10 +35,12 @@ export default function FilterModal() {
                     <ModalCloseButton />
                     <ModalBody>
                         <EventCheckbox />
+                        <br />
+                        <DistanceSlider />
                     </ModalBody>
                     <ModalFooter>
                         <Stack direction="row" pl={6} mt={1} spacing={3}>
-                            <Button variant="outline">Ακύρωση</Button>
+                            <Button variant="outline" onClick={onClose}>Ακύρωση</Button>
                             <Button colorScheme="purple">Εφαρμογή</Button>
                         </Stack>
                     </ModalFooter>
