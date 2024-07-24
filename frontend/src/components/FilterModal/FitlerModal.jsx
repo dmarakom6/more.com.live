@@ -1,4 +1,4 @@
-import { Button, Stack, ModalOverlay, useDisclosure, Modal, ModalBody, ModalHeader, ModalCloseButton, ModalFooter, Text, ModalContent } from "@chakra-ui/react"
+import { Button, Stack, ModalOverlay, useDisclosure, Modal, ModalBody, ModalHeader, ModalCloseButton, ModalFooter, ModalContent } from "@chakra-ui/react"
 import { FaFilter } from "react-icons/fa";
 import { useState } from "react"
 
