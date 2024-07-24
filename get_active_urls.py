@@ -67,8 +67,7 @@ def get_event_info(info):
 
 def main():
     main_page_event_info = get_main_page_event_info()
-    print(main_page_event_info)
-    # get_event_info(main_page_event_info, flush=True)
+    get_event_info(main_page_event_info, flush=True)
     
 
 
