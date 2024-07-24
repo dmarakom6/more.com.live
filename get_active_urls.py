@@ -28,7 +28,7 @@ def get_main_page_event_info():
             event_title = event_title_tag.get_text(strip=True)
             aside_tag = article_tag.find('aside')
             img_tag = aside_tag.find('img') if aside_tag else None
-            event_thumbnail_url = img_tag['src'] if img_tag else 'No Thumbnail'
+            event_thumbnail_url = img_tag['data-original'] if img_tag else None # 'src' is the relative path, while 'data-original' is the absolute path with a starting width, that can be modified.
             
             info = {
                 'event_url': event_url,
@@ -67,7 +67,8 @@ def get_event_info(info):
 
 def main():
     main_page_event_info = get_main_page_event_info()
-    get_event_info(main_page_event_info, flush=True)
+    print(main_page_event_info)
+    # get_event_info(main_page_event_info, flush=True)
     
 
 
