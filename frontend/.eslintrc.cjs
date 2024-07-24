@@ -18,5 +18,6 @@ module.exports = {
       { allowConstantExport: true },
     ],
     'react/jsx-indent': ['error', 4],
+    "react/prop-types": "off",
   },
 }
