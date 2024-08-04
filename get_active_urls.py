@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
+import json
+import sys
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0'
@@ -38,6 +40,8 @@ def get_main_page_event_info():
                 'event_group_code': event_group_code
             }
             
+            info['event_info'] = get_event_info(info)
+            
             event_info.append(info)
     
     return event_info
@@ -46,20 +50,19 @@ def get_main_page_event_info():
 # Get info for every event in the main page
 def get_event_info(info):
     event_info = []
-    for event in info:
-        event_url = 'https://www.more.com/_api/playdetails/getevents?eventGroupCode=' + event.get('event_group_code') # Avoids KeyError
-        raw_data = requests.get(event_url, headers=headers).json()[0] # Dictionary inside a list
-        
-        filtered_info = {
-            'event_id': raw_data['eventId'],
-            'duration': raw_data['duration'],
-            'latitude': raw_data['venueLatitude'],
-            'longtitude': raw_data['venueLongitude'],
-            'producer_name': raw_data['producerName']
-        }
+    event_url = 'https://www.more.com/_api/playdetails/getevents?eventGroupCode=' + info.get('event_group_code') # Avoids KeyError
+    raw_data = requests.get(event_url, headers=headers).json()[0] # Dictionary inside a list
+    
+    filtered_info = {
+        'event_id': raw_data['eventId'],
+        'duration': raw_data['duration'],
+        'latitude': float(raw_data['venueLatitude'].replace(",", ".")),
+        'longitude': float(raw_data['venueLongitude'].replace(",", ".")),
+        'producer_name': raw_data['producerName']
+    }
 
-        event_info.append(filtered_info)
-        
+    event_info.append(filtered_info)
+    
             
     return event_info #Really slow
         
@@ -67,13 +70,15 @@ def get_event_info(info):
 
 def main():
     main_page_event_info = get_main_page_event_info()
-    get_event_info(main_page_event_info, flush=True)
+    return main_page_event_info
+    # get_event_info(main_page_event_info, flush=True)
     
 
 
 
 if __name__ == "__main__":
     a = main()
+    json.dump(a, sys.stdout, ensure_ascii=False)
     # print(a) Will force a timeout, really slow
 
 
