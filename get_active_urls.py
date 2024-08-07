@@ -20,11 +20,14 @@ def get_main_page_event_info():
         articles = div.find_all('article')
 
         for article_tag in articles:
+            description = article_tag.find('meta', attrs={'itemprop': 'description'}).get('content')
             event_group_code = article_tag['data-code']
             event_date_tag = article_tag.find('time')
             event_date = event_date_tag.get_text(strip=True)
             a_tag = article_tag.find('a', id="ItemLink")
             playinfo = a_tag.find(class_="playinfo")
+            playinfo_venue = playinfo.find(class_="playinfo__venue")
+            venue_span = playinfo_venue.find("span").get_text(strip=True)
             event_title_tag = playinfo.find('h3')    
             event_url = a_tag['href'] if a_tag else 'No URL'
             event_title = event_title_tag.get_text(strip=True)
@@ -35,6 +38,8 @@ def get_main_page_event_info():
             info = {
                 'event_url': event_url,
                 'event_title': event_title,
+                'event_location': venue_span,
+                'event_description': description,
                 'event_date': event_date,
                 'event_thumbnail_url': event_thumbnail_url,
                 'event_group_code': event_group_code
@@ -56,6 +61,8 @@ def get_event_info(info):
     filtered_info = {
         'event_id': raw_data['eventId'],
         'duration': raw_data['duration'],
+        'venue_name': raw_data['venueName'],
+        'venue_id': raw_data['venueId'],
         'latitude': float(raw_data['venueLatitude'].replace(",", ".")),
         'longitude': float(raw_data['venueLongitude'].replace(",", ".")),
         'producer_name': raw_data['producerName']
