@@ -11,21 +11,21 @@ export default function Map() {
         iconUrl: 'icons/purpleDot.png',
         iconSize: [100, 100],
         // iconAnchor: [22, 94],
-        popupAnchor: [-3, -76],
+        // popupAnchor: [-3, -76],
     })
 
     var yellowDot = L.icon({
         iconUrl: 'icons/yellowDot.png',
         iconSize: [10, 10],
         // iconAnchor: [22, 94],
-        popupAnchor: [-3, -76],
+        // popupAnchor: [-3, -76],
     })
 
     var locationPin = L.icon({
         iconUrl: 'icons/location-pin.png',
         iconSize: [30, 30],
         // iconAnchor: [22, 94],
-        popupAnchor: [-3, -76],
+        // popupAnchor: [-3, -76],
     })
 
 
@@ -34,6 +34,24 @@ export default function Map() {
             setCenter([pos.coords.latitude, pos.coords.longitude])
         });
     }, [])
+
+    const venue_ids = eventInfo.map(event => event.event_info[0].venue_id)
+
+    const venue_count = {};
+
+    venue_ids.forEach(venue_id => {
+        if (venue_count[venue_id]) {
+            venue_count[venue_id]++;
+        } else {
+            venue_count[venue_id] = 1;
+        }
+    });
+
+    const multiple_events = {};
+
+    Object.keys(venue_count).forEach(venue_id => {
+        multiple_events[venue_id] = venue_count[venue_id] > 1;
+    });
 
 
 
@@ -47,7 +65,7 @@ export default function Map() {
                         }
                     }}
                     riseOnHover={true}
-                    icon={purpleDot}
+                    icon={multiple_events[event.event_info[0].venue_id] === true ? yellowDot : purpleDot}
                     key={event.event_info[event.event_info.length - 1].event_id}
                     position={[event.event_info[event.event_info.length - 1].latitude,
                     event.event_info[event.event_info.length - 1].longitude]}
