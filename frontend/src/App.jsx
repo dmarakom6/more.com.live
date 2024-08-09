@@ -9,11 +9,10 @@ function App() {
     return (
         <>
             <Header>
-                <EventDrawer events={false} />
-                <EventDrawer events={true} />
                 <FilterModal />
             </Header>
-
+            <EventDrawer events={false} />
+            <EventDrawer events={true} />
             <Map />
         </>
     )
