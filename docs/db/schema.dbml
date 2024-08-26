@@ -1,20 +1,27 @@
 // DBML Structure for more.com.live
 
-Table mainPageEvent { // events from main page
-  group_code text [primary key]
-  url text
-  title text
-  date text
-  thumbnail_url text 
-} // this information is scraped by the get_active_urls.py script
-
-Table event { // every event has its own page
+Table event {
   event_id integer [primary key]
-  group_code text
+  group_code text [ref: > group.group_code]
+  venue_id integer [ref: > venue.venue_id]
+  duration integer
+  producer_name text
+}
+
+Table venue {
+  venue_id integer [primary key]
+  venue_name text
   latitude float
   longitude float
-  producer_name text
-  duration integer
-} // this information is in https://www.more.com/_api/playdetails/getevents?eventGroupCode={group_code}
+}
 
-Ref: event.group_code - mainPageEvent.group_code // 1-1
+Table group {
+  group_code text [primary key]
+  event_url text
+  event_title text
+  event_location text
+  event_description text
+  event_date text
+  event_thumbnail_url text
+
+}

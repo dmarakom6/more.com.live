@@ -1,9 +1,9 @@
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet"
 import L from "leaflet"
 import { useState, useEffect } from "react"
-import eventInfo from "../../../public/info.json"
+import eventInfo from "/public/info.json"
 
-export default function Map() {
+export default function Map(props) {
 
     const [center, setCenter] = useState([0, 0])
 
@@ -53,11 +53,10 @@ export default function Map() {
         multiple_events[venue_id] = venue_count[venue_id] > 1;
     });
 
-
-
     function getMarkers(eventArray) {
         return eventArray.map(event => {
             return (
+
                 <Marker
                     eventHandlers={{
                         click: (e) => {
@@ -65,7 +64,7 @@ export default function Map() {
                         }
                     }}
                     riseOnHover={true}
-                    icon={multiple_events[event.event_info[0].venue_id] === true ? yellowDot : purpleDot}
+                    icon={multiple_events[event.event_info[0].venue_id] ? yellowDot : purpleDot}
                     key={event.event_info[event.event_info.length - 1].event_id}
                     position={[event.event_info[event.event_info.length - 1].latitude,
                     event.event_info[event.event_info.length - 1].longitude]}

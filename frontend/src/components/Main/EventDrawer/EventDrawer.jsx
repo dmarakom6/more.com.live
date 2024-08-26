@@ -19,7 +19,8 @@ import { SimpleGrid } from '@chakra-ui/react' // Info Layout
 
 
 export default function EventDrawer(props) {
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const { onClose } = useDisclosure()
+
     const btnRef = React.useRef()
 
     const big = window.innerWidth > 1200
@@ -134,11 +135,8 @@ export default function EventDrawer(props) {
 
     return (
         <>
-            <Button ref={btnRef} colorScheme={colorscheme} onClick={onOpen}>
-                Open
-            </Button>
             <Drawer
-                isOpen={isOpen}
+                isOpen={props.isOpen}
                 placement={big ? 'right' : 'bottom'}
                 onClose={onClose}
                 finalFocusRef={btnRef}

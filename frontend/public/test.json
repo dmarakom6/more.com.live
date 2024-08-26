@@ -1,0 +1,22 @@
+[
+    {
+        "event_id": 676521,
+        "event_url": "/music/oi-poiites-mas-tragoudoun?lang=en-US",
+        "duration": 150,
+        "producer_name": "ΘΕΑΤΡΙΚΕΣ ΣΚΗΝΕΣ ΑΕ",
+        "group": {
+            "event_title": "Οι ποιητές μας τραγουδούν Μητσιάς - Καραμπέτη",
+            "event_location": "Pallas Theater",
+            "event_description": "«ΟΙ ΠΟΙΗΤΕΣ ΜΑΣ ΤΡΑΓΟΥΔΟΥΝ» Μανώλης Μητσιάς Καρυοφυλλιά Καραμπέτη Σάββατο 28 Σεπτεμβρίου Θέατρο Παλλάς Ανθολογία της ελληνικής μελοποιημένης ποίησης με τον Μανώλη Μητσιά και την Καρυοφυλλιά Καραμπέτη",
+            "event_date": "28 September",
+            "event_thumbnail_url": "/getattachment/AF188AEA-95AB-47F2-BEAA-C7F633CEDA3F/evg_oipoietesmastragoudoun_1855_1150.png?width=300",
+            "event_group_code": "evg_oipoietesmastragoudoun_1855_1150"
+        },
+        "venue": {
+            "venue_name": "Θέατρο Παλλάς",
+            "venue_id": 1290,
+            "latitude": 37.977009,
+            "longitude": 23.735037
+        }
+    }
+]
