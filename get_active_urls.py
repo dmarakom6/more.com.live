@@ -46,7 +46,6 @@ def get_main_page_event_info():
             }
             
             result = get_event_info(info)
-            result['group'] = get_group_info(info)
             result['venue'] = get_venue_info(info)
             
             
@@ -55,28 +54,14 @@ def get_main_page_event_info():
     return event_info
 
 
-# Get info for every eventGroup in the main page
-def get_group_info(info):
-    
-    return {
-        "event_title": info['event_title'],
-        "event_location": info['event_location'],
-        "event_description": info['event_description'],
-        "event_date": info['event_date'],
-        "event_thumbnail_url": info['event_thumbnail_url'],
-        "event_group_code": info['event_group_code'],
-        
-        
-    }
-    
-    
+
 def get_event_and_venue_info(info):
 
     event_url = 'https://www.more.com/_api/playdetails/getevents?eventGroupCode=' + info.get('event_group_code') # Avoids KeyError
-    raw_data = requests.get(event_url, headers=headers).json()[0] # Dictionary inside a list
+    raw_data = requests.get(event_url, headers=headers).json() # Dictionary inside a list
     
     filtered_info = {
-        'event_id': raw_data['eventId'],
+        # 'event_id': raw_data['eventId'],
         'event_url': event_url,
         'duration': raw_data['duration'],
         'venue_name': raw_data['venueName'],
@@ -91,11 +76,18 @@ def get_event_and_venue_info(info):
 def get_event_info(info):
     filtered_info = get_event_and_venue_info(info)
     return {
-        "event_id": filtered_info["event_id"],
+        # "event_id": filtered_info["event_id"],
+        "event_group_code": info['event_group_code'],
         "event_url": filtered_info["event_url"],
         "duration": filtered_info["duration"],
-        "producer_name": filtered_info["producer_name"]
+        "producer_name": filtered_info["producer_name"],
+        "event_title": info['event_title'],
+        "event_location": info['event_location'],
+        "event_description": info['event_description'],
+        "event_date": info['event_date'],
+        "event_thumbnail_url": info['event_thumbnail_url'],
     }
+    
     
 def get_venue_info(info):
     filtered_info = get_event_and_venue_info(info)
