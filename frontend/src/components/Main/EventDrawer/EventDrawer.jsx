@@ -127,7 +127,6 @@ export default function EventDrawer(props) {
         } else {
             return (
                 <>
-                    <SortPopover colorscheme={colorscheme} />
                 </>
             )
         }

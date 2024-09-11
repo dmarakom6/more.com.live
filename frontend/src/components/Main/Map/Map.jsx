@@ -2,6 +2,9 @@ import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet"
 import L from "leaflet"
 import { useState, useEffect } from "react"
 import eventInfo from "/public/info.json"
+import { get_unique_venues } from "../../../util/events"
+
+const venueInfo = get_unique_venues(eventInfo)
 
 export default function Map(props) {
 
@@ -35,41 +38,32 @@ export default function Map(props) {
         });
     }, [])
 
-    const venue_ids = eventInfo.map(event => event.event_info[0].venue_id)
-
-    const venue_count = {};
-
-    venue_ids.forEach(venue_id => {
-        if (venue_count[venue_id]) {
-            venue_count[venue_id]++;
-        } else {
-            venue_count[venue_id] = 1;
-        }
-    });
-
-    const multiple_events = {};
-
-    Object.keys(venue_count).forEach(venue_id => {
-        multiple_events[venue_id] = venue_count[venue_id] > 1;
-    });
-
-    function getMarkers(eventArray) {
-        return eventArray.map(event => {
-            return (
-
-                <Marker
-                    eventHandlers={{
-                        click: (e) => {
-                            console.log([e.latlng['lat'], e.latlng['lng']]) //TODO useMap.flyTo to centralize the marker
+    function getMarkers(venueInfo) {
+        return venueInfo.map(venue => {
+            try {
+                const type = venue.groups.length > 1 ? "venue" : "event"
+                const item = type === "venue" ? venue : venue.groups[0]
+                return (
+                    <Marker
+                        eventHandlers={{
+                            click: (v) => {
+                                console.log([v.latlng['lat'], v.latlng['lng']]) //TODO useMap.flyTo to centralize the marker
+                                props.handleMarkerClick(item, type)
+                            }
+                        }}
+                        riseOnHover={true}
+                        icon={type === "venue" ? yellowDot : purpleDot}
+                        key={venue.venue_id}
+                        position={[
+                            venue.latitude,
+                            venue.longitude
+                        ]
                         }
-                    }}
-                    riseOnHover={true}
-                    icon={multiple_events[event.event_info[0].venue_id] ? yellowDot : purpleDot}
-                    key={event.event_info[event.event_info.length - 1].event_id}
-                    position={[event.event_info[event.event_info.length - 1].latitude,
-                    event.event_info[event.event_info.length - 1].longitude]}
-                />
-            )
+                    />
+                )
+            } catch {
+                console.log(venue)
+            }
         })
     }
 
@@ -80,7 +74,7 @@ export default function Map(props) {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <Marker icon={locationPin} position={center} />
-            {getMarkers(eventInfo)}
+            {getMarkers(venueInfo)}
 
 
         </MapContainer>
