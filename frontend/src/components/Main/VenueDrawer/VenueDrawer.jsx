@@ -13,7 +13,6 @@ import {
     useDisclosure
 } from '@chakra-ui/react' // Drawer
 import { LinkBox, LinkOverlay, Text, Heading, Box, Image } from '@chakra-ui/react' // Link Overlay for Multiple Events
-import { SimpleGrid } from '@chakra-ui/react' // Info Layout
 
 export default function VenueDrawer(props) {
     const { onClose } = useDisclosure()
@@ -32,7 +31,7 @@ export default function VenueDrawer(props) {
             {/* <DrawerOverlay /> -> lowers the map's brightness*/}
             <DrawerContent>
                 <DrawerCloseButton />
-                <DrawerHeader fontSize="2em" color={color}>{props.events ? "Λίστα Γεγονότων" : "Γεγονός"}</DrawerHeader>
+                <DrawerHeader fontSize="2em" color={color}>Λίστα Γεγονότων</DrawerHeader>
                 {!props.venue || typeof props.venue.groups !== "Array" ? console.log(props.venue) :
                     <DrawerBody>
                         {
