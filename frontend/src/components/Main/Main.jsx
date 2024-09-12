@@ -17,7 +17,7 @@ export default function Main() {
     return (
         <>
             <Map handleMarkerClick={handleMarkerClick} />
-            {/* <EventDrawer isOpen={isOpen} /> */}
+            <EventDrawer event={event} />
             <VenueDrawer venue={venue} />
         </>
     )
