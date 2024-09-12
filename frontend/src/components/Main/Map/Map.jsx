@@ -61,7 +61,7 @@ export default function Map(props) {
                         ]
                         }
                     >
-                        <Tooltip>{item.event_title}</Tooltip>
+                        <Tooltip>{type === "venue" ? `${item.groups[0].event_title} +${item.groups.length - 1}` : item.event_title}</Tooltip>
                     </Marker>
                 )
             } catch {
