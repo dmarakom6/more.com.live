@@ -42,12 +42,13 @@ export default function Map(props) {
         return venueInfo.map(venue => {
             try {
                 const type = venue.groups.length > 1 ? "venue" : "event"
-                const item = type === "venue" ? venue : venue.groups[0]
+                const item = type === "venue" ? venue : { "distance": (L.latLng({ lat: venue.latitude, lng: venue.longitude }).distanceTo(L.latLng({ lat: center[0], lng: center[1] })) / 1000).toFixed(2), ...venue.groups[0] }
+
                 return (
                     <Marker
                         eventHandlers={{
                             click: (v) => {
-                                console.log([v.latlng['lat'], v.latlng['lng']]) //TODO useMap.flyTo to centralize the marker
+                                console.log([v.latlng['lat'], v.latlng['lng']], center) //TODO useMap.flyTo to centralize the marker
                                 props.handleMarkerClick(item, type)
                             }
                         }}

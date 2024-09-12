@@ -24,6 +24,7 @@ export default function EventDrawer(props) {
     const big = window.innerWidth > 1200
     const color = "#805AD5"
     const colorscheme = "purple"
+    // console.log(props.event.distance)
 
     return (
         <>
@@ -67,7 +68,7 @@ export default function EventDrawer(props) {
                                     <Box boxShadow="xl" border={`1px solid ${color}`} rounded="base" backdropFilter='auto' backdropBlur='8px' background="#fafafa" height='80px' p="2" color="black">
                                         <div className="grid--box">
                                             <Text>Απόσταση</Text>
-                                            <Text color={color} className="grid--info" fontSize="1.55rem" pt="0.5rem" fontWeight="600">Dummy text</Text>
+                                            <Text color={color} className="grid--info" fontSize="1.55rem" pt="0.5rem" fontWeight="600">{props.event.distance} χλμ.</Text>
                                         </div>
 
                                     </Box>
