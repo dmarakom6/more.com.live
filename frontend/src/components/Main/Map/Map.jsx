@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet"
+import { MapContainer, TileLayer, Marker, Tooltip, useMap } from "react-leaflet"
 import L from "leaflet"
 import { useState, useEffect } from "react"
 import eventInfo from "/public/info.json"
@@ -59,7 +59,9 @@ export default function Map(props) {
                             venue.longitude
                         ]
                         }
-                    />
+                    >
+                        <Tooltip>{item.event_title}</Tooltip>
+                    </Marker>
                 )
             } catch {
                 console.log(venue)
