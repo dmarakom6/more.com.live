@@ -11,14 +11,14 @@ export default function Main() {
 
     function handleMarkerClick(item, type) {
         type === "venue" ? setVenue(item) : setEvent(item)
-
     }
+
 
     return (
         <>
             <Map handleMarkerClick={handleMarkerClick} />
-            <EventDrawer event={event} />
-            <VenueDrawer venue={venue} />
+            <EventDrawer event={event} onClose={() => setEvent(undefined)} />
+            <VenueDrawer venue={venue} onClose={() => setVenue(undefined)} handleEventClick={setEvent} />
         </>
     )
 }

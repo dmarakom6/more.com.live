@@ -31,7 +31,7 @@ export default function EventDrawer(props) {
             <Drawer
                 isOpen={props.event}
                 placement={big ? 'right' : 'bottom'}
-                onClose={onClose}
+                onClose={props.onClose}
                 finalFocusRef={btnRef}
                 size={big ? "lg" : "xs"}
             >
@@ -106,7 +106,7 @@ export default function EventDrawer(props) {
                     }
 
                     <DrawerFooter>
-                        <Button variant='outline' mr={3} onClick={onClose}>
+                        <Button variant='outline' mr={3} onClick={props.onClose}>
                             Πίσω
                         </Button>
                         <Button mr="var(--chakra-space-3)" onClick={console.log("google maps redirect")} colorScheme={colorscheme}>Οδηγίες</Button>

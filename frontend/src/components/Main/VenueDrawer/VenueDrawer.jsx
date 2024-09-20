@@ -20,11 +20,12 @@ export default function VenueDrawer(props) {
     const big = window.innerWidth > 1200
     const color = "#FDDA0D"
 
+
     return (
         <Drawer
             isOpen={props.venue}
             placement={big ? 'right' : 'bottom'}
-            onClose={onClose}
+            onClose={props.onClose}
             finalFocusRef={btnRef}
             size={big ? "lg" : "xs"}
         >
@@ -32,11 +33,11 @@ export default function VenueDrawer(props) {
             <DrawerContent>
                 <DrawerCloseButton />
                 <DrawerHeader fontSize="2em" color={color}>Λίστα Γεγονότων</DrawerHeader>
-                {!props.venue || typeof props.venue.groups !== "Array" ? console.log(props.venue) :
+                {!props.venue || !Array.isArray(props.venue.groups) ? console.log(props.venue) :
                     <DrawerBody>
                         {
                             props.venue.groups.map(group => (
-                                <LinkBox as='article' maxW='100%' p='5' mb='10px' borderWidth='2px' boxShadow="md" rounded='md'>
+                                <LinkBox onClick={() => props.handleEventClick(group)} as='article' maxW='100%' p='5' mb='10px' borderWidth='2px' boxShadow="md" rounded='md'>
                                     <Box as='time' dateTime='2021-01-15 15:30:00 +0000 UTC'>
                                         {group.event_date}
                                     </Box>
@@ -56,7 +57,7 @@ export default function VenueDrawer(props) {
                 }
 
                 <DrawerFooter>
-                    <Button variant='outline' mr={3} onClick={onClose}>
+                    <Button variant='outline' mr={3} onClick={props.onClose}>
                         Πίσω
                     </Button>
                     <SortPopover colorscheme="yellow" />
