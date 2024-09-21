@@ -107,8 +107,8 @@ export default function EventDrawer(props) {
                     <Button variant='outline' mr={3} onClick={props.onClose}>
                         Πίσω
                     </Button>
-                    <Button mr="var(--chakra-space-3)" onClick={() => location.href = `https://maps.google.com/?q=${props.event.latitude},${props.event.longitude}`} colorScheme={colorscheme}>Οδηγίες</Button>
-                    <Button onClick={() => location.href = `https://more.com/${props.event.event_url}`} colorScheme={colorscheme}>Εισιτήρια</Button>
+                    <a href={`https://maps.google.com/?q=${props.event.latitude},${props.event.longitude}`}><Button mr="var(--chakra-space-3)" colorScheme={colorscheme}>Οδηγίες</Button></a>
+                    <a href={`https://more.com/${props.event.event_url}`}><Button colorScheme={colorscheme}>Εισιτήρια</Button></a>
                 </DrawerFooter>
             </DrawerContent >
         </Drawer >
