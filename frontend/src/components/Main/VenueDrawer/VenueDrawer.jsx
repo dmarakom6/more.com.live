@@ -37,7 +37,7 @@ export default function VenueDrawer(props) {
                     <DrawerBody>
                         {
                             props.venue.groups.map(group => (
-                                <LinkBox onClick={() => props.handleEventClick(group)} as='article' maxW='100%' p='5' mb='10px' borderWidth='2px' boxShadow="md" rounded='md'>
+                                <LinkBox onClick={() => props.handleEventClick(group, "event")} as='article' maxW='100%' p='5' mb='10px' borderWidth='2px' boxShadow="md" rounded='md'>
                                     <Box as='time' dateTime='2021-01-15 15:30:00 +0000 UTC'>
                                         {group.event_date}
                                     </Box>
@@ -60,7 +60,7 @@ export default function VenueDrawer(props) {
                     <Button variant='outline' mr={3} onClick={props.onClose}>
                         Πίσω
                     </Button>
-                    <SortPopover colorscheme="yellow" />
+                    {/* <SortPopover colorscheme="yellow" /> */}
                 </DrawerFooter>
             </DrawerContent >
         </Drawer >

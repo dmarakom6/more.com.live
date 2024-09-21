@@ -26,67 +26,67 @@ export default function EventDrawer(props) {
     const colorscheme = "purple"
     // console.log(props.event.distance)
 
-    return (
-        <>
-            <Drawer
-                isOpen={props.event}
-                placement={big ? 'right' : 'bottom'}
-                onClose={props.onClose}
-                finalFocusRef={btnRef}
-                size={big ? "lg" : "xs"}
-            >
-                {/* <DrawerOverlay /> -> lowers the map's brightness*/}
-                <DrawerContent>
-                    <DrawerCloseButton />
-                    <DrawerHeader fontSize="2em" color={color}>Γεγονός</DrawerHeader>
-                    {!props.event ? console.log(props.event) :
-                        <DrawerBody>
-                            <LinkBox as='article' maxW='100%' p='5' mb='10px' borderWidth='2px' boxShadow="md" rounded='md'>
-                                <Box as='time' dateTime='2021-01-15 15:30:00 +0000 UTC'>
-                                    {props.event.event_date}
-                                </Box>
-                                <Heading size='md' my='2'>
-                                    <LinkOverlay href='#'>
-                                        {props.event.event_title}
-                                    </LinkOverlay>
-                                </Heading>
-                                <Box w="100%" h="50%" mb="3">
-                                    <Image rounded="md" src={`https://www.more.com${props.event.event_thumbnail_url}`} width="100%" height="300" alt="event thumbnail" />
-                                </Box>
-                                <Text>
-                                    {props.event.event_description}
-                                </Text>
 
-                                <SimpleGrid mt="4" minChildWidth='200px' spacing='40px'>
-                                    <Box boxShadow="xl" border={`1px solid ${color}`} rounded="base" backdropFilter='auto' backdropBlur='8px' background="#fafafa" height='80px' p="2" color="black">
-                                        <div className="grid--box">
-                                            <Text>Τοποθεσία</Text>
-                                            <Text color={color} className="grid--info" fontSize="1.55rem" pt="0.5rem" fontWeight="600">{props.event.event_location}</Text>
-                                        </div>
+    return !props.event ? console.log(props.event) : (
+        <Drawer
+            isOpen={props.event}
+            placement={big ? 'right' : 'bottom'}
+            onClose={props.onClose}
+            finalFocusRef={btnRef}
+            size={big ? "lg" : "xs"}
+        >
+            {/* <DrawerOverlay /> -> lowers the map's brightness*/}
+            <DrawerContent>
+                <DrawerCloseButton />
+                <DrawerHeader fontSize="2em" color={color}>Γεγονός</DrawerHeader>
 
-                                    </Box>
-                                    <Box boxShadow="xl" border={`1px solid ${color}`} rounded="base" backdropFilter='auto' backdropBlur='8px' background="#fafafa" height='80px' p="2" color="black">
-                                        <div className="grid--box">
-                                            <Text>Απόσταση</Text>
-                                            <Text color={color} className="grid--info" fontSize="1.55rem" pt="0.5rem" fontWeight="600">{props.event.distance} χλμ.</Text>
-                                        </div>
+                <DrawerBody>
+                    <LinkBox as='article' maxW='100%' p='5' mb='10px' borderWidth='2px' boxShadow="md" rounded='md'>
+                        <Box as='time' dateTime='2021-01-15 15:30:00 +0000 UTC'>
+                            {props.event.event_date}
+                        </Box>
+                        <Heading size='md' my='2'>
+                            <LinkOverlay href='#'>
+                                {props.event.event_title}
+                            </LinkOverlay>
+                        </Heading>
+                        <Box w="100%" h="50%" mb="3">
+                            <Image rounded="md" src={`https://www.more.com${props.event.event_thumbnail_url}`} width="100%" height="300" alt="event thumbnail" />
+                        </Box>
+                        <Text>
+                            {props.event.event_description}
+                        </Text>
 
-                                    </Box>
-                                    <Box boxShadow="xl" border={`1px solid ${color}`} rounded="base" backdropFilter='auto' backdropBlur='8px' background="#fafafa" height='80px' p="2" color="black">
-                                        <div className="grid--box">
-                                            <Text>Διάρκεια</Text>
-                                            <Text color={color} className="grid--info" fontSize="1.55rem" pt="0.5rem" fontWeight="600">{props.event.duration}'</Text>
-                                        </div>
+                        <SimpleGrid mt="4" minChildWidth='200px' spacing='40px'>
+                            <Box boxShadow="xl" border={`1px solid ${color}`} rounded="base" backdropFilter='auto' backdropBlur='8px' background="#fafafa" height='80px' p="2" color="black">
+                                <div className="grid--box">
+                                    <Text>Τοποθεσία</Text>
+                                    <Text color={color} className="grid--info" fontSize="1.55rem" pt="0.5rem" fontWeight="600">{props.event.event_location}</Text>
+                                </div>
 
-                                    </Box>
-                                    <Box boxShadow="xl" border={`1px solid ${color}`} rounded="base" backdropFilter='auto' backdropBlur='8px' background="#fafafa" height='80px' p="2" color="black">
-                                        <div className="grid--box">
-                                            <Text>Διοργανωτής</Text>
-                                            <Text color={color} className="grid--info" style={{ overflow: "none" }} overflow="scroll" fontSize="1.55rem" pt="0.5rem" fontWeight="600">{props.event.producer_name}</Text>
-                                        </div>
+                            </Box>
+                            <Box boxShadow="xl" border={`1px solid ${color}`} rounded="base" backdropFilter='auto' backdropBlur='8px' background="#fafafa" height='80px' p="2" color="black">
+                                <div className="grid--box">
+                                    <Text>Απόσταση</Text>
+                                    <Text color={color} className="grid--info" fontSize="1.55rem" pt="0.5rem" fontWeight="600">{props.event.distance} χλμ.</Text>
+                                </div>
 
-                                    </Box>
-                                    {/* <Box boxShadow="xl" border={`1px solid ${color}`} rounded="base" backdropFilter='auto' backdropBlur='8px' background="#fafafa" height='80px' p="2" color="black">
+                            </Box>
+                            <Box boxShadow="xl" border={`1px solid ${color}`} rounded="base" backdropFilter='auto' backdropBlur='8px' background="#fafafa" height='80px' p="2" color="black">
+                                <div className="grid--box">
+                                    <Text>Διάρκεια</Text>
+                                    <Text color={color} className="grid--info" fontSize="1.55rem" pt="0.5rem" fontWeight="600">{props.event.duration}'</Text>
+                                </div>
+
+                            </Box>
+                            <Box boxShadow="xl" border={`1px solid ${color}`} rounded="base" backdropFilter='auto' backdropBlur='8px' background="#fafafa" height='80px' p="2" color="black">
+                                <div className="grid--box">
+                                    <Text>Διοργανωτής</Text>
+                                    <Text color={color} className="grid--info" style={{ overflow: "none" }} overflow="scroll" fontSize="1.55rem" pt="0.5rem" fontWeight="600">{props.event.producer_name}</Text>
+                                </div>
+
+                            </Box>
+                            {/* <Box boxShadow="xl" border={`1px solid ${color}`} rounded="base" backdropFilter='auto' backdropBlur='8px' background="#fafafa" height='80px' p="2" color="black">
                                 <div className="grid--box">
                                     <Text>Εισιτήρια</Text>
                                     <Text color={color} className="grid--info" fontSize="1.55rem" pt="0.5rem" fontWeight="600"><a className="grid--link" href="">more.com</a></Text>
@@ -100,20 +100,19 @@ export default function EventDrawer(props) {
                                 </div>
 
                             </Box> */}
-                                </SimpleGrid>
-                            </LinkBox>
-                        </DrawerBody >
-                    }
+                        </SimpleGrid>
+                    </LinkBox>
+                </DrawerBody >
+                <DrawerFooter>
+                    <Button variant='outline' mr={3} onClick={props.onClose}>
+                        Πίσω
+                    </Button>
+                    <Button mr="var(--chakra-space-3)" onClick={console.log("more.com redirect")} colorScheme={colorscheme}>Οδηγίες</Button>
+                    <Button onClick={() => location.href = props.event.event_url} colorScheme={colorscheme}>Εισιτήρια</Button>
+                </DrawerFooter>
+            </DrawerContent >
+        </Drawer >
 
-                    <DrawerFooter>
-                        <Button variant='outline' mr={3} onClick={props.onClose}>
-                            Πίσω
-                        </Button>
-                        <Button mr="var(--chakra-space-3)" onClick={console.log("google maps redirect")} colorScheme={colorscheme}>Οδηγίες</Button>
-                        <Button onClick={console.log("more.com redirect")} colorScheme={colorscheme}>Εισιτήρια</Button>
-                    </DrawerFooter>
-                </DrawerContent >
-            </Drawer >
-        </>
     )
+
 }

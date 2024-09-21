@@ -18,7 +18,7 @@ export default function Main() {
         <>
             <Map handleMarkerClick={handleMarkerClick} />
             <EventDrawer event={event} onClose={() => setEvent(undefined)} />
-            <VenueDrawer venue={venue} onClose={() => setVenue(undefined)} handleEventClick={setEvent} />
+            <VenueDrawer venue={venue} onClose={() => setVenue(undefined)} handleEventClick={handleMarkerClick} />
         </>
     )
 }
