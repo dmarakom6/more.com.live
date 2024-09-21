@@ -43,9 +43,9 @@ export default function Map(props) {
             try {
                 venue.groups.map(group => group.distance = (L.latLng({ lat: venue.latitude, lng: venue.longitude }).distanceTo(L.latLng({ lat: center[0], lng: center[1] })) / 1000).toFixed(2)) // calculate distance to each venue
                 const type = venue.groups.length > 1 ? "venue" : "event"
-                const item = type === "venue" ? venue : { ...venue.groups[0] }
+                const item = type === "venue" ? venue : { "latitude": venue.latitude, "longitude": venue.longitude, ...venue.groups[0] }
 
-                return (
+                return venue.latitude !== 0 && venue.longitude !== 0 && (
                     <Marker
                         eventHandlers={{
                             click: (v) => {
