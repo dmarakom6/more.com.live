@@ -1,34 +1,34 @@
-import { MapContainer, TileLayer, Marker, Tooltip, useMap } from "react-leaflet"
+import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet"
 import L from "leaflet"
 import { useState, useEffect } from "react"
-import eventInfo from "/public/info.json"
+// import eventInfo from "/public/info.json"
 import { get_unique_venues } from "../../../util/events"
 
-const venueInfo = get_unique_venues(eventInfo)
-
 export default function Map(props) {
+
+
+    const [venueInfo, setVenueInfo] = useState([]);
+    useEffect(() => {
+        fetch("https://more-com-live.fly.storage.tigris.dev/info.json")
+            .then(response => response.json())
+            .then(eventInfo => setVenueInfo(get_unique_venues(eventInfo)))
+    }, [])
 
     const [center, setCenter] = useState([0, 0])
 
     var purpleDot = L.icon({
         iconUrl: 'icons/purpleDot.png',
-        iconSize: [100, 100],
-        // iconAnchor: [22, 94],
-        // popupAnchor: [-3, -76],
+        iconSize: [100, 100]
     })
 
     var yellowDot = L.icon({
         iconUrl: 'icons/yellowDot.png',
-        iconSize: [10, 10],
-        // iconAnchor: [22, 94],
-        // popupAnchor: [-3, -76],
+        iconSize: [10, 10]
     })
 
     var locationPin = L.icon({
         iconUrl: 'icons/location-pin.png',
-        iconSize: [30, 30],
-        // iconAnchor: [22, 94],
-        // popupAnchor: [-3, -76],
+        iconSize: [30, 30]
     })
 
 

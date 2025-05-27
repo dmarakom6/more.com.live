@@ -59,7 +59,12 @@ def get_main_page_event_info():
 def get_event_and_venue_info(info):
 
     event_url = 'https://www.more.com/_api/playdetails/getevents?eventGroupCode=' + info.get('event_group_code') # Avoids KeyError
-    raw_data = requests.get(event_url, headers=headers).json()[0] # Dictionary inside a list
+    try: 
+        raw_response = requests.get(event_url, headers=headers)
+        raw_data = raw_response.json()[0] # Dictionary inside a list
+    except:
+        print(raw_response)
+
     
     filtered_info = {
         # 'event_id': raw_data['eventId'],
